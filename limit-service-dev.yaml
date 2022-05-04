@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: limit-service
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    baseUrl: http://localhost:9411
+
+server:
+  port: 8080
+
+limit-service:
+  minimum: 1
+  maximum: 10
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+resilience4j:
+  retry:
+    instances:
+      default:
+        maxAttempts: 2
+        waitDuration: 1s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+  circuitbreaker:
+    instances:
+      default:
+        registerHealthIndicator: true
+        minimumNumberOfCalls: 10
+        permittedNumberOfCallsInHalfOpenState: 4
+        waitDurationInOpenState: 50s
+        failureRateThreshold: 50
+  ratelimiter:
+    instances:
+      default:
+        limitForPeriod: 2
+        limitRefreshPeriod: 10s
+        timoutDuration: 0
+  timelimiter:
+    instances:
+      default:
+        timeoutDuation: 2s
+        cancelRunningFuture: true
+  bulkhead:
+    instances:
+      default:
+        maxConcurrentCalls: 10
