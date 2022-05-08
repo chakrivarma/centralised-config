@@ -5,7 +5,7 @@ spring:
     sampler:
       probability: 1.0
   zipkin:
-    baseUrl: http://localhost:9411
+    baseUrl: http://zipkin-server:9411
 #  cloud:
 #    gateway:
 #      discovery:
@@ -19,4 +19,4 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://naming-server:8761/eureka
